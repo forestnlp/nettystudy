@@ -22,11 +22,17 @@ com/nettystudy/netty/Client.java
  com.nettystudy.netty.Client$1
  com.nettystudy.netty.Client$2
  com.nettystudy.netty.ClientHandler
-com/nettystudy/netty/Server.java
- com.nettystudy.netty.Server
- com.nettystudy.netty.Server$1
- com.nettystudy.netty.ServerChildHandler
 com/nettystudy/chat/Chatroom.java
  com.nettystudy.chat.Chatroom
  com.nettystudy.chat.Chatroom$1
  com.nettystudy.chat.Chatroom$2
+com/nettystudy/chat/Client.java
+ com.nettystudy.chat.CilentChannelInitializer
+ com.nettystudy.chat.Client
+ com.nettystudy.chat.Client$1
+ com.nettystudy.chat.Client$2
+ com.nettystudy.chat.ClientHandler
+com/nettystudy/netty/Server.java
+ com.nettystudy.netty.Server
+ com.nettystudy.netty.Server$1
+ com.nettystudy.netty.ServerChildHandler

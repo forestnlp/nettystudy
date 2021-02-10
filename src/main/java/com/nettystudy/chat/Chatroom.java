@@ -11,7 +11,11 @@ public class Chatroom extends Frame{
     TextArea ta = new TextArea();
     TextField tf = new TextField();
 
-    public Chatroom() {
+    Client client ;
+
+    public static final Chatroom INSTANCE = new Chatroom();
+
+    private Chatroom() {
         this.setSize(600,400);
         this.setLocation(20,80);
         this.add(ta,BorderLayout.CENTER);
@@ -20,11 +24,10 @@ public class Chatroom extends Frame{
         tf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ta.setText(ta.getText()+"\n"+tf.getText());
+                client.send(tf.getText());
                 tf.setText("");
             }
         });
-        this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -33,7 +36,18 @@ public class Chatroom extends Frame{
         });
     }
 
+    public void connectServer(){
+        client = new Client();
+        client.connect();
+    }
+
     public static void main(String[] args) {
-        new Chatroom();
+        Chatroom frame = Chatroom.INSTANCE ;
+        frame.setVisible(true);
+        frame.connectServer();
+    }
+
+    public void updateText(String s) {
+        Chatroom.INSTANCE.ta.setText(ta.getText()+System.getProperty("line.separator")+s);
     }
 }

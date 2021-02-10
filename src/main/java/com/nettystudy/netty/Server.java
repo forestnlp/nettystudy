@@ -58,7 +58,6 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
             buf = (ByteBuf)msg;
             byte[] bytes = new byte[buf.readableBytes()];
             buf.getBytes(buf.readerIndex(),bytes);
-            System.out.println(new String(bytes));
             Server.clients.writeAndFlush(msg);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,6 +69,7 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         //cause.printStackTrace();
+        Server.clients.remove(ctx.channel());
         ctx.close();
     }
 }
