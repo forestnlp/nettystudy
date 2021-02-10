@@ -54,6 +54,7 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
             buf.getBytes(buf.readerIndex(),bytes);
             System.out.println(new String(bytes));
             System.out.println(buf.refCnt());
+            //ctx.writeAndFlush(buf);
         } finally {
             if(buf!=null)
                 ReferenceCountUtil.release(buf);
