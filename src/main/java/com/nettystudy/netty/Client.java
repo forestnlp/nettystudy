@@ -7,6 +7,9 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.ReferenceCountUtil;
+
+import java.util.Random;
 
 public class Client {
     public static void main(String[] args) {
@@ -38,6 +41,7 @@ public class Client {
 
             future.sync();
             System.out.println("........");
+            future.channel().closeFuture().sync();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,7 +53,6 @@ public class Client {
 }
 
 class CilentChannelInitializer extends ChannelInitializer<SocketChannel>{
-
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         System.out.println("CilentChannelInitializer:"+ch);
@@ -61,13 +64,25 @@ class CilentChannelInitializer extends ChannelInitializer<SocketChannel>{
 class ClientHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        ByteBuf buf = null;
+        try {
+            buf = (ByteBuf)msg;
+            byte[] bytes = new byte[buf.readableBytes()];
+            buf.getBytes(buf.readerIndex(),bytes);
+            System.out.println(new String(bytes));
+            System.out.println(buf.refCnt());
+        } finally {
+            if(buf!=null)
+                ReferenceCountUtil.release(buf);
+            System.out.println(buf.refCnt());
+        }
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        String msg = "hello,i am netty client"+String.valueOf(new Random().nextInt(1000));
         //第一次连上的时候，就写出一个字符串
-        ByteBuf buf = Unpooled.copiedBuffer("hello,i am netty client".getBytes());
+        ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
         ctx.writeAndFlush(buf);
     }
 }

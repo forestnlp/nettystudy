@@ -6,7 +6,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.ReferenceCountUtil;
 
 public class Server {
     public static void main(String[] args) {
@@ -27,12 +26,7 @@ public class Server {
                     }).bind(8888)
                     .sync();
             System.out.println("netty server started!");
-            future.addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    System.out.println("connected");
-                }
-            });
+
             //channel的future等待关闭命令 通过sync命令，卡在此处，使主程序继续执行
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
@@ -54,10 +48,13 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
             buf.getBytes(buf.readerIndex(),bytes);
             System.out.println(new String(bytes));
             System.out.println(buf.refCnt());
-            //ctx.writeAndFlush(buf);
-        } finally {
-            if(buf!=null)
-                ReferenceCountUtil.release(buf);
+            ctx.writeAndFlush(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            finally{
+//            if(buf!=null)
+//                ReferenceCountUtil.release(buf);
             System.out.println(buf.refCnt());
         }
     }
