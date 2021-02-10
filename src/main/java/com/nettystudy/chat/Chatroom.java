@@ -31,9 +31,14 @@ public class Chatroom extends Frame{
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                closeConnect();
                 System.exit(0);
             }
         });
+    }
+
+    private void closeConnect() {
+        client.send("886");
     }
 
     public void connectServer(){

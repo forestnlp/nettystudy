@@ -16,7 +16,7 @@ public class Server {
 
     public static void main(String[] args) {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(2);
-        NioEventLoopGroup workerGroup = new NioEventLoopGroup(32);
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup(4);
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         try {
@@ -58,7 +58,14 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
             buf = (ByteBuf)msg;
             byte[] bytes = new byte[buf.readableBytes()];
             buf.getBytes(buf.readerIndex(),bytes);
-            Server.clients.writeAndFlush(msg);
+            String message = new String(bytes);
+            if(message.equals("886")){
+                System.out.println("客户端要求退出");
+                Server.clients.remove(ctx.channel());
+                ctx.close();
+            } else {
+                Server.clients.writeAndFlush(msg);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,7 +75,7 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        //cause.printStackTrace();
+        cause.printStackTrace();
         Server.clients.remove(ctx.channel());
         ctx.close();
     }
