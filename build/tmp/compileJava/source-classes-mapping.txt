@@ -12,17 +12,21 @@ com/nettystudy/aio/ServerWithThreads.java
  com.nettystudy.aio.ServerWithThreads$1$1
 com/nettystudy/nio/Server.java
  com.nettystudy.nio.Server
+com/nettystudy/nio/PoolServer.java
+ com.nettystudy.nio.PoolServer
+com/nettystudy/bio/Server.java
+ com.nettystudy.bio.Server
 com/nettystudy/netty/Client.java
  com.nettystudy.netty.CilentChannelInitializer
  com.nettystudy.netty.Client
  com.nettystudy.netty.Client$1
  com.nettystudy.netty.Client$2
  com.nettystudy.netty.ClientHandler
-com/nettystudy/bio/Server.java
- com.nettystudy.bio.Server
-com/nettystudy/nio/PoolServer.java
- com.nettystudy.nio.PoolServer
 com/nettystudy/netty/Server.java
  com.nettystudy.netty.Server
  com.nettystudy.netty.Server$1
  com.nettystudy.netty.ServerChildHandler
+com/nettystudy/chat/Chatroom.java
+ com.nettystudy.chat.Chatroom
+ com.nettystudy.chat.Chatroom$1
+ com.nettystudy.chat.Chatroom$2

@@ -70,11 +70,9 @@ class ClientHandler extends ChannelInboundHandlerAdapter{
             byte[] bytes = new byte[buf.readableBytes()];
             buf.getBytes(buf.readerIndex(),bytes);
             System.out.println(new String(bytes));
-            System.out.println(buf.refCnt());
         } finally {
             if(buf!=null)
                 ReferenceCountUtil.release(buf);
-            System.out.println(buf.refCnt());
         }
     }
 
